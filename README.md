@@ -2,7 +2,7 @@
 
 Guia introdutório e treino interativo dos sons do **inglês americano** (General American), com transcrição fonêmica IPA, grade de referência e jogo de reconhecimento de som.
 
-Projeto pessoal de estudo, desenvolvido em parceria com Claude (Anthropic) como ferramenta de desenvolvimento e mentor técnico.
+Projeto pessoal de estudo, desenvolvido por Daniel Dourado utilizando o Claude (Anthropic) como ferramenta para guiar o desenvolvimento do projeto e mentor técnico.
 
 ---
 
@@ -82,24 +82,9 @@ Implicações importantes:
 
 ## Como instalar como PWA
 
-1. Hospede os arquivos (recomendado: GitHub Pages, gratuito)
-2. Em Settings → Pages, ative o GitHub Pages na branch `main`
-3. Abra o link gerado no Chrome do celular
-4. Menu (⋮) → "Adicionar à tela inicial"
-5. O app abre em tela cheia, com ícone próprio, funcionando offline depois do primeiro carregamento
-
----
-
-## Testes recomendados antes de publicar
-
-- [ ] Testar todos os botões de áudio (referência e jogo)
-- [ ] Conferir símbolos IPA e palavras de exemplo
-- [ ] Testar respostas válidas e inválidas no jogo, nos dois modos
-- [ ] Testar em Chrome, Firefox, Edge e navegadores móveis
-- [ ] Testar em celular, tablet e computador
-- [ ] Testar instalação como PWA e funcionamento offline
-- [ ] Testar navegação por teclado e compatibilidade com leitor de tela
-- [ ] Testar com zoom de 200%
+1. Abra o link gerado no Chrome do celular
+2. Menu (⋮) → "Adicionar à tela inicial"
+3. O app abre em tela cheia, com ícone próprio, funcionando offline depois do primeiro carregamento
 
 ---
 
