@@ -3,577 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>IPA — Os 44 Sons do Inglês</title>
+<title>IPA Sound Trainer — Sons do Inglês Americano</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 <meta name="theme-color" content="#1c2b2d">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="IPA Sons">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
-
-  :root {
-    --ink: #1c2b2d;
-    --paper: #eef0e9;
-    --paper-raised: #ffffff;
-    --vowel: #b5542a;
-    --consonant: #2e5c5e;
-    --diphthong: #7a5a9e;
-    --line: #d8dbd0;
-    --muted: #6b7370;
-    --good: #3f7a4e;
-    --bad: #b5342a;
-  }
-
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Source Sans 3', sans-serif;
-    padding: 0 0 80px 0;
-  }
-
-  header {
-    padding: 64px 24px 40px;
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: left;
-  }
-
-  .eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--vowel);
-    font-weight: 700;
-    margin-bottom: 14px;
-  }
-
-  h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(34px, 6vw, 56px);
-    line-height: 1.05;
-    margin: 0 0 18px 0;
-    letter-spacing: -0.01em;
-  }
-
-  header p {
-    max-width: 620px;
-    font-size: 17px;
-    line-height: 1.6;
-    color: #3a4442;
-    margin: 0;
-  }
-
-  main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* ---------- Explicação ---------- */
-
-  .explain {
-    margin-top: 40px;
-    background: var(--paper-raised);
-    border: 1px solid var(--line);
-    padding: 32px;
-  }
-
-  .explain h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 22px;
-    margin: 0 0 14px 0;
-  }
-
-  .explain h2:not(:first-child) {
-    margin-top: 30px;
-  }
-
-  .explain p {
-    font-size: 15px;
-    line-height: 1.7;
-    color: #33403d;
-    margin: 0 0 12px 0;
-  }
-
-  .explain ol, .explain ul {
-    margin: 0 0 12px 0;
-    padding-left: 22px;
-  }
-
-  .explain li {
-    font-size: 15px;
-    line-height: 1.65;
-    color: #33403d;
-    margin-bottom: 8px;
-  }
-
-  .compare-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 16px 0 20px 0;
-    font-size: 14px;
-  }
-  .compare-table th {
-    text-align: left;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--muted);
-    border-bottom: 2px solid var(--ink);
-    padding: 8px 10px;
-  }
-  .compare-table td {
-    padding: 9px 10px;
-    border-bottom: 1px solid var(--line);
-  }
-  .compare-table .ipa-mini {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    color: var(--vowel);
-  }
-
-  .inline-example {
-    display: inline-block;
-    background: #f3f0e6;
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    padding: 1px 7px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13.5px;
-    color: var(--ink);
-  }
-
-  /* ---------- Legend + grid (reference) ---------- */
-
-  .legend {
-    margin: 32px 0 0;
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12.5px;
-  }
-  .legend span {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--muted);
-  }
-  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-  .dot.v { background: var(--vowel); }
-  .dot.c { background: var(--consonant); }
-  .dot.d { background: var(--diphthong); }
-
-  section {
-    margin-top: 56px;
-  }
-
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    border-bottom: 2px solid var(--ink);
-    padding-bottom: 10px;
-    margin-bottom: 4px;
-  }
-
-  .section-head h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 24px;
-    margin: 0;
-  }
-
-  .section-count {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12.5px;
-    color: var(--muted);
-  }
-
-  .section-note {
-    font-size: 14px;
-    color: var(--muted);
-    margin: 10px 0 20px 0;
-    max-width: 640px;
-    line-height: 1.5;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-  }
-
-  .card {
-    background: var(--paper-raised);
-    padding: 18px 18px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    transition: background 0.15s ease;
-  }
-
-  .card:hover { background: #fbfbf8; }
-
-  .symbol {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 30px;
-  }
-
-  .symbol.vowel-color { color: var(--vowel); }
-  .symbol.consonant-color { color: var(--consonant); }
-  .symbol.diphthong-color { color: var(--diphthong); }
-
-  .examples {
-    font-size: 14px;
-    line-height: 1.5;
-    color: #384442;
-  }
-
-  .examples b { font-weight: 700; }
-
-  .pt-hint {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  /* ---------- Game ---------- */
-
-  .game { margin-top: 56px; }
-
-  .game-panel {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 32px;
-    border-radius: 2px;
-  }
-
-  .game-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 22px;
-  }
-
-  .game-title-block .tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--vowel);
-    font-weight: 700;
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .game-title-block h3 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 22px;
-    margin: 0;
-  }
-
-  .stats { display: flex; gap: 18px; font-family: 'JetBrains Mono', monospace; }
-  .stat { text-align: right; }
-  .stat-value { font-size: 22px; font-weight: 700; }
-  .stat-value.score-color { color: #d8b26a; }
-  .stat-value.streak-color { color: #6aa87a; }
-  .stat-value.best-color { color: #8a8fd8; }
-  .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #8a9490; }
-
-  .xp-track {
-    height: 8px;
-    background: #2a3836;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 6px;
-  }
-  .xp-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #d8b26a, #b5542a);
-    width: 0%;
-    transition: width 0.4s ease;
-  }
-  .xp-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px;
-    color: #8a9490;
-    margin-bottom: 20px;
-  }
-
-  .symbol-audio-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-  }
-
-  .audio-btn {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid #46524e;
-    color: var(--paper);
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    flex-shrink: 0;
-  }
-  .audio-btn:hover { background: var(--vowel); border-color: var(--vowel); }
-  .audio-btn:active { transform: scale(0.94); }
-  .audio-btn.playing { background: var(--vowel); border-color: var(--vowel); animation: pulse 0.6s ease infinite; }
-
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(181,84,42,0.5); }
-    50% { box-shadow: 0 0 0 6px rgba(181,84,42,0); }
-  }
-
-  .next-row { display: none; justify-content: center; margin-top: 14px; }
-  .next-row.show { display: flex; }
-  .next-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--good);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 12px 28px;
-    cursor: pointer;
-    transition: opacity 0.15s ease;
-    width: 100%;
-  }
-  .next-btn:hover { opacity: 0.88; }
-
-  .badges-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 18px;
-  }
-  .badge-chip {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    background: rgba(216, 178, 106, 0.15);
-    border: 1px solid #d8b26a;
-    color: #d8b26a;
-    padding: 4px 11px;
-    border-radius: 12px;
-    animation: popIn 0.3s ease;
-  }
-  @keyframes popIn {
-    from { transform: scale(0.7); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  .mode-select { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
-
-  .mode-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    padding: 7px 14px;
-    background: transparent;
-    border: 1px solid #46524e;
-    color: #b8c0bb;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  .mode-btn:hover { border-color: #8a9490; color: var(--paper); }
-  .mode-btn.active { background: var(--vowel); border-color: var(--vowel); color: white; }
-
-  .question-box {
-    background: #253937;
-    border-radius: 4px;
-    padding: 36px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .question-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #8a9490;
-    margin-bottom: 14px;
-  }
-  .question-symbol {
-    font-family: 'Fraunces', serif;
-    font-weight: 700;
-    font-size: 64px;
-    color: var(--paper);
-    margin-bottom: 6px;
-  }
-  .question-hint { font-size: 13px; color: #8a9490; font-family: 'JetBrains Mono', monospace; }
-
-  .answer-row { display: flex; gap: 10px; margin-bottom: 14px; }
-
-  #answer-input {
-    flex: 1;
-    background: #253937;
-    border: 2px solid #46524e;
-    border-radius: 4px;
-    padding: 14px 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
-    color: var(--paper);
-    outline: none;
-    transition: border-color 0.15s ease;
-  }
-  #answer-input:focus { border-color: var(--vowel); }
-  #answer-input::placeholder { color: #647069; }
-
-  .submit-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--vowel);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0 26px;
-    cursor: pointer;
-    transition: opacity 0.15s ease;
-  }
-  .submit-btn:hover { opacity: 0.88; }
-
-  .feedback {
-    min-height: 52px;
-    border-radius: 4px;
-    padding: 14px 16px;
-    font-size: 14px;
-    line-height: 1.6;
-    display: none;
-  }
-  .feedback.show { display: block; }
-  .feedback.correct { background: rgba(63, 122, 78, 0.18); border: 1px solid var(--good); color: #a8d4b3; }
-  .feedback.incorrect { background: rgba(181, 52, 42, 0.18); border: 1px solid var(--bad); color: #e3aca6; }
-  .feedback b { color: var(--paper); }
-
-  .skip-row { display: flex; justify-content: flex-end; margin-top: 10px; }
-  .skip-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    background: transparent;
-    border: none;
-    color: #8a9490;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .skip-btn:hover { color: var(--paper); }
-
-  .progress-bar-track { height: 4px; background: #46524e; border-radius: 2px; margin-top: 24px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background: var(--vowel); width: 0%; transition: width 0.3s ease; }
-  .progress-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8a9490; margin-top: 8px; text-align: right; }
-
-  .missed-list { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .missed-chip {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    background: rgba(181, 52, 42, 0.18);
-    border: 1px solid var(--bad);
-    color: #e3aca6;
-    padding: 3px 10px;
-    border-radius: 12px;
-  }
-
-  footer {
-    max-width: 900px;
-    margin: 48px auto 0;
-    padding: 20px 24px 0;
-    border-top: 1px solid var(--line);
-    font-size: 12.5px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  @media (max-width: 480px) {
-    header { padding: 44px 18px 28px; }
-    .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-    main { padding: 0 18px; }
-    .answer-row { flex-direction: column; }
-    .submit-btn { padding: 12px; }
-    .question-symbol { font-size: 48px; }
-    .game-panel { padding: 22px; }
-  }
-</style>
+<meta name="apple-mobile-web-app-title" content="IPA Trainer">
+<meta name="description" content="Guia introdutório e treino interativo dos sons do inglês americano (General American), com transcrição fonêmica IPA e jogo de reconhecimento de som.">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
 <header>
-  <div class="eyebrow">Fase 1 · Fundação — Semana 1-4</div>
-  <h1>Os 44 sons do inglês</h1>
-  <p>Referência completa de IPA (International Phonetic Alphabet) pra você reconhecer, entender e treinar cada som do inglês americano antes e durante os vídeos da Rachel's English.</p>
+  <div class="eyebrow">Guia introdutório de pronúncia</div>
+  <h1>Sons do inglês americano</h1>
+  <p>Referência interativa de fonemas do inglês americano (General American), com transcrição IPA fonêmica, exemplos de palavras e um treino de reconhecimento de som.</p>
+  <div class="disclaimer-box">
+    <b>Aviso:</b> este é um material introdutório, não uma referência exaustiva. Ele não cobre todas as variações regionais do inglês americano, alofones, nem todos os sistemas de transcrição existentes. A pronúncia real pode variar conforme o sotaque, a posição do som na palavra e o contexto. O áudio deste app é gerado pela voz sintetizada do seu navegador/sistema — não é uma gravação humana controlada, e pode variar de dispositivo para dispositivo.
+  </div>
 </header>
 
 <main>
 
   <div class="explain">
     <h2>O que é o IPA</h2>
-    <p>IPA (International Phonetic Alphabet) é um sistema de símbolos onde <b>cada símbolo representa exatamente um som</b> — não uma letra. É diferente do alfabeto normal, onde uma letra pode soar de jeitos diferentes dependendo da palavra.</p>
-    <p>Exemplo prático: a letra <span class="inline-example">a</span> no inglês muda de som completamente dependendo da palavra:</p>
+    <p>O IPA (International Phonetic Alphabet / Alfabeto Fonético Internacional) é um sistema de símbolos usado para representar sons da fala de forma mais consistente do que a escrita comum permite. Cada símbolo representa uma <b>categoria de som</b> (fonema) — mas a forma exata como esse som é produzido pode variar conforme o sotaque, a posição na palavra e o falante.</p>
+    <p>Exemplo prático: a letra <span class="inline-example">a</span> no inglês corresponde a sons bem diferentes dependendo da palavra:</p>
     <table class="compare-table">
-      <tr><th>Palavra</th><th>Letra</th><th>Som IPA</th><th>Como soa</th></tr>
-      <tr><td>c<b>a</b>t</td><td class="ipa-mini">a</td><td class="ipa-mini">/æ/</td><td>"quét" (boca bem aberta)</td></tr>
-      <tr><td>f<b>a</b>ther</td><td class="ipa-mini">a</td><td class="ipa-mini">/ɑː/</td><td>"fá" (a aberto e longo)</td></tr>
-      <tr><td><b>a</b>bout</td><td class="ipa-mini">a</td><td class="ipa-mini">/ə/</td><td>"âbáut" (a bem fraco)</td></tr>
-      <tr><td>w<b>a</b>nt</td><td class="ipa-mini">a</td><td class="ipa-mini">/ɒ/</td><td>"uônt" (quase um "o")</td></tr>
+      <tr><th>Palavra</th><th>Letra</th><th>Som IPA</th><th>Aproximação</th></tr>
+      <tr><td>c<b>a</b>t</td><td class="ipa-mini">a</td><td class="ipa-mini">/æ/</td><td>entre "é" e "á", bem aberto</td></tr>
+      <tr><td>f<b>a</b>ther</td><td class="ipa-mini">a</td><td class="ipa-mini">/ɑ/</td><td>"a" aberto e posterior</td></tr>
+      <tr><td><b>a</b>bout</td><td class="ipa-mini">a</td><td class="ipa-mini">/ə/</td><td>"a" bem fraco (schwa)</td></tr>
+      <tr><td>w<b>a</b>nt</td><td class="ipa-mini">a</td><td class="ipa-mini">/ɑ/</td><td>próximo de "o" aberto</td></tr>
     </table>
-    <p>É por isso que "decorar a letra" nunca funciona em inglês. O IPA resolve esse problema: cada símbolo entre barras <span class="inline-example">/…/</span> tem <b>um único som fixo</b>, sempre.</p>
+    <p>Por isso, apoiar-se apenas na ortografia para adivinhar a pronúncia costuma falhar em inglês. O IPA oferece um símbolo mais consistente para cada som — mas vale notar que barras <span class="inline-example">/…/</span> indicam transcrição <b>fonêmica</b> (a categoria de som relevante para diferenciar palavras), enquanto colchetes <span class="inline-example">[…]</span> indicam transcrição <b>fonética</b>, mais detalhada. Este guia usa transcrição fonêmica.</p>
 
-    <h2>Por que isso importa pro seu método</h2>
-    <p>Seu plano de fluência começa com fonética antes de gramática, porque o cérebro adquire som antes de significado. Sem reconhecer os sons, você continua "lendo em inglês com sotaque de português" mesmo sabendo muitas palavras.</p>
-    <p>O IPA aqui serve três funções no seu treino diário:</p>
+    <h2>Por que treinar percepção de som</h2>
+    <p>Treinar a percepção dos sons de um idioma pode ajudar na compreensão auditiva e na pronúncia, já que muitos pares de palavras em inglês se diferenciam apenas por um único som (como "ship" e "sheep"). Reconhecer esses contrastes é uma etapa comum em métodos de ensino de pronúncia.</p>
+    <p>Este material tem três funções de apoio ao estudo:</p>
     <ol>
-      <li><b>Diagnóstico</b> — descobrir quais sons você confunde (geralmente pares como /iː/ vs /ɪ/, ou sons que não existem em português como /θ/, /ð/, /ɜː/)</li>
-      <li><b>Referência durante o shadowing</b> — quando a Rachel's English explica um som, você acha o símbolo aqui e associa com a posição da boca</li>
-      <li><b>Treino ativo</b> — o jogo no final força seu cérebro a fazer o caminho contrário: ver o símbolo e lembrar o som, sem depender de reconhecer a palavra escrita primeiro</li>
+      <li><b>Diagnóstico</b> — identificar quais sons são mais difíceis de reconhecer ou produzir</li>
+      <li><b>Referência</b> — durante aulas, vídeos ou cursos de pronúncia, localizar o símbolo correspondente e associá-lo à posição da boca e ao som</li>
+      <li><b>Treino ativo</b> — o jogo ao final pede que você associe o símbolo a uma palavra, testando reconhecimento em vez de apenas leitura passiva</li>
     </ol>
 
-    <h2>Como ler os símbolos</h2>
+    <h2>Convenção usada nesta página</h2>
     <ul>
-      <li><span class="inline-example">/…/</span> — símbolo entre barras = som isolado (é assim que dicionários mostram pronúncia)</li>
-      <li>Vogais <b style="color:var(--vowel)">longas</b> têm o símbolo <span class="inline-example">ː</span> depois (dois pontinhos) — o som se estende mais, tipo /iː/ em "sheep" comparado ao /ɪ/ curto em "ship"</li>
-      <li>Ditongos são <b>dois sons grudados</b> que a boca desliza de um pro outro dentro da mesma sílaba, tipo /aɪ/ em "my"</li>
-      <li>O símbolo <span class="inline-example">ə</span> (schwa) é o som mais comum do inglês inteiro — o "a" fraco e preguiçoso que aparece em sílabas não-acentuadas</li>
+      <li>Este guia representa o inglês <b>americano rótico</b> (General American) — ou seja, o som de R é pronunciado mesmo no final de sílaba (diferente do inglês britânico tradicional, que costuma omitir esse R).</li>
+      <li>Vogais R-coloridas aparecem como <span class="inline-example">/ɝ/</span> (tônica, como em "bird") e <span class="inline-example">/ɚ/</span> (átona, como em "teacher") — símbolos específicos do sistema americano, diferentes do /ɜː/ britânico.</li>
+      <li>O símbolo <span class="inline-example">/ə/</span> (schwa) representa uma vogal central reduzida, comum em sílabas não-acentuadas — é o som mais frequente do inglês.</li>
+      <li>Ditongos envolvem um movimento entre duas qualidades vocálicas dentro da mesma sílaba (não são "dois sons colados", mas um deslizamento contínuo).</li>
+      <li>Algumas aproximações em português são oferecidas como ponto de partida, mas <b>não representam a pronúncia exata</b> — são apenas referências aproximadas para quem está começando.</li>
     </ul>
 
-    <h2>Como estudar essa página</h2>
+    <h2>Como usar esta página</h2>
     <ol>
-      <li><b>Primeira passada:</b> role a lista de referência abaixo devagar, uma vez, só olhando os símbolos e falando o exemplo de palavra em voz alta</li>
-      <li><b>Durante o vídeo da Rachel's English:</b> quando ela ensinar um som, pausa, vem aqui, acha o símbolo, repete a palavra de exemplo 5-10 vezes</li>
-      <li><b>Depois do vídeo:</b> desce até o jogo, escolhe o modo do grupo que você acabou de estudar, e testa se realmente gravou — sem olhar a lista de referência</li>
-      <li><b>Registre no caderno</b> os símbolos que errar 2+ vezes no jogo — são sua prioridade de treino nos próximos dias</li>
+      <li><b>Primeira leitura:</b> percorra a grade de referência abaixo, ouvindo o áudio de cada exemplo e prestando atenção na dica articulatória</li>
+      <li><b>Durante seus estudos:</b> ao encontrar um som específico sendo ensinado em uma aula, vídeo ou curso, volte aqui, localize o símbolo, e repita as palavras de exemplo em voz alta</li>
+      <li><b>Depois:</b> use o jogo de treino para testar se você reconhece o som sem depender da grade de referência</li>
+      <li><b>Registre</b> os sons que errar repetidamente — esses merecem atenção prioritária</li>
     </ol>
+
+    <div class="source-note">
+      Convenção de transcrição baseada em referências de inglês americano (General American), incluindo padrões usados por dicionários de pronúncia e materiais de fonética como os disponíveis em americanipachart.com e easypronunciation.com. Este projeto é independente e não possui afiliação com nenhum curso, canal ou professor específico.
+    </div>
   </div>
 
   <div class="legend">
     <span><i class="dot v"></i>Vogais (12)</span>
-    <span><i class="dot d"></i>Ditongos (8)</span>
+    <span><i class="dot d"></i>Ditongos (5)</span>
     <span><i class="dot c"></i>Consoantes (24)</span>
   </div>
 
@@ -582,17 +81,17 @@
       <h2>Vogais</h2>
       <span class="section-count">12 sons</span>
     </div>
-    <p class="section-note">Vogais puras — a boca não muda de posição durante o som. Atenção especial em /iː/ vs /ɪ/ e /uː/ vs /ʊ/: pares que o ouvido brasileiro confunde no início (ex: "sheep" x "ship").</p>
-    <div class="grid" id="vowels"></div>
+    <p class="section-note">Nos monotongos, a qualidade da vogal permanece relativamente estável durante a pronúncia. Preste atenção especial em pares próximos como /i/ vs /ɪ/ e /u/ vs /ʊ/, que diferenciam palavras como "sheep" e "ship".</p>
+    <div class="grid" id="vowels-grid"></div>
   </section>
 
   <section>
     <div class="section-head">
       <h2>Ditongos</h2>
-      <span class="section-count">8 sons</span>
+      <span class="section-count">5 sons</span>
     </div>
-    <p class="section-note">A boca desliza de uma posição pra outra dentro da mesma vogal. Em português isso já acontece naturalmente ("pai", "meu") — a dificuldade aqui é mais de vocabulário que de articulação.</p>
-    <div class="grid" id="diphthongs"></div>
+    <p class="section-note">Um ditongo envolve um movimento contínuo entre duas qualidades vocálicas dentro da mesma sílaba — a língua e os lábios se deslocam de uma posição para outra ao longo da produção do som.</p>
+    <div class="grid" id="diphthongs-grid"></div>
   </section>
 
   <section>
@@ -600,16 +99,17 @@
       <h2>Consoantes</h2>
       <span class="section-count">24 sons</span>
     </div>
-    <p class="section-note">Os que mais pegam brasileiro: /θ/ e /ð/ (o "TH", não existe em português), /r/ retroflexo americano, e a diferença entre /v/ e /b/ (que no português às vezes se confundem).</p>
-    <div class="grid" id="consonants"></div>
+    <p class="section-note">Destaque para /θ/ e /ð/ (o "TH"), que não têm equivalente em português, e para /ɹ/, o aproximante usado no R do inglês americano — articulado sem contato entre a língua e o céu da boca, diferente do R do português.</p>
+    <div class="grid" id="consonants-grid"></div>
   </section>
 
   <section class="game">
     <div class="game-panel">
       <div class="game-top">
         <div class="game-title-block">
-          <span class="tag" id="level-tag">Nível 1 · Iniciante</span>
-          <h3>Qual é a palavra?</h3>
+          <span class="tag">Modo treino</span>
+          <h3>Reconhecimento de som</h3>
+          <p class="accent-note">Este treino usa a convenção de inglês americano rótico descrita acima. O áudio é gerado por síntese de voz do navegador — a pronúncia pode variar de dispositivo para dispositivo.</p>
         </div>
         <div class="stats">
           <div class="stat">
@@ -620,61 +120,46 @@
             <div class="stat-value streak-color" id="streak-value">0</div>
             <div class="stat-label">Sequência</div>
           </div>
-          <div class="stat">
-            <div class="stat-value best-color" id="best-value">0</div>
-            <div class="stat-label">Recorde</div>
-          </div>
         </div>
       </div>
 
-      <div class="xp-track">
-        <div class="xp-fill" id="xp-fill"></div>
-      </div>
-      <div class="xp-label" id="xp-label">0 XP para o próximo nível</div>
-
-      <div class="mode-select">
+      <div class="mode-select" role="group" aria-label="Selecionar categoria de sons">
         <button class="mode-btn active" data-mode="vowels">Vogais</button>
         <button class="mode-btn" data-mode="diphthongs">Ditongos</button>
         <button class="mode-btn" data-mode="consonants">Consoantes</button>
-        <button class="mode-btn" data-mode="all">Todos os 44</button>
+        <button class="mode-btn" data-mode="all">Todos</button>
+      </div>
+
+      <div class="mode-toggle-inline" role="group" aria-label="Selecionar tipo de resposta">
+        <button id="type-mode-btn" class="active">Digitar palavra</button>
+        <button id="mc-mode-btn">Múltipla escolha</button>
       </div>
 
       <div class="question-box">
-        <div class="question-label">Digite uma palavra que contém este som</div>
-        <div class="symbol-audio-row">
-          <div class="question-symbol" id="question-symbol">/iː/</div>
-          <button class="audio-btn" id="audio-btn" title="Ouvir exemplos">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 5L6 9H2V15H6L11 19V5Z" fill="currentColor"/>
-              <path d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 11.995C17.004 13.3208 16.4774 14.5924 15.54 15.53" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M18.07 5.93C19.9447 7.80528 20.9978 10.3447 20.9978 12.99C20.9978 15.6353 19.9447 18.1747 18.07 20.05" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </div>
-        <div class="question-hint" id="question-hint">dica: pense em "ver, sentir"</div>
+        <div class="question-label">Qual palavra tem este som?</div>
+        <div class="question-symbol" id="question-symbol">/i/</div>
+        <div class="question-hint" id="question-hint">dica de articulação</div>
+        <div class="question-approx" id="question-approx"></div>
       </div>
 
-      <div class="answer-row">
-        <input type="text" id="answer-input" placeholder="digite a palavra em inglês…" autocomplete="off" />
+      <div class="answer-row" id="answer-row">
+        <input type="text" id="answer-input" placeholder="digite uma palavra em inglês…" autocomplete="off" aria-label="Digite sua resposta" />
         <button class="submit-btn" id="submit-btn">Verificar</button>
       </div>
 
-      <div class="feedback" id="feedback"></div>
+      <div class="mc-options" id="mc-options" style="display:none;" role="group" aria-label="Opções de resposta"></div>
 
-      <div class="next-row" id="next-row">
-        <button class="next-btn" id="next-btn">Próxima pergunta →</button>
-      </div>
+      <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
 
-      <div class="skip-row">
-        <button class="skip-btn" id="skip-btn">pular esse som</button>
+      <div class="action-row">
+        <button class="skip-btn" id="skip-btn">Pular este som</button>
+        <button class="next-btn-game" id="next-btn-game">Próxima pergunta →</button>
       </div>
 
       <div class="progress-bar-track">
         <div class="progress-bar-fill" id="progress-fill"></div>
       </div>
       <div class="progress-label" id="progress-label">0 / 12 sons neste modo</div>
-
-      <div class="badges-row" id="badges-row"></div>
 
       <div class="missed-list" id="missed-list"></div>
     </div>
@@ -683,317 +168,12 @@
 </main>
 
 <footer>
-  IPA — International Phonetic Alphabet · Referência American English
+  IPA Sound Trainer · Guia introdutório de pronúncia do inglês americano (General American) · Projeto independente, sem afiliação com cursos ou canais específicos · Transcrição fonêmica com base em referências de fonética do inglês americano
 </footer>
 
-<script>
-const vowels = [
-  { sym: "iː", ex: "s<b>ee</b>, sh<b>ee</b>p, m<b>e</b>", hint: "tipo 'i' longo, boca esticada", words: ["see","sheep","me","tea","feel","tree","green","need","meet","piece","eat","read","key","people","team","dream","clean","speak","sleep","week"] },
-  { sym: "ɪ", ex: "sh<b>i</b>p, s<b>i</b>t, b<b>i</b>t", hint: "'i' curto e relaxado", words: ["ship","sit","bit","fish","gym","big","him","this","is","in","it","win","did","live","give","women","busy","build","pretty","England"] },
-  { sym: "e", ex: "b<b>e</b>d, s<b>ai</b>d, m<b>e</b>n", hint: "parecido com 'é' do português", words: ["bed","said","men","red","pen","get","yes","ten","best","help","every","friend","again","many","said","head","bread","said","weather","said"] },
-  { sym: "æ", ex: "c<b>a</b>t, b<b>a</b>d, m<b>a</b>n", hint: "entre 'é' e 'á', boca bem aberta", words: ["cat","bad","man","hat","apple","that","have","and","can","hand","happy","black","back","fast","last","after","family","travel","actually","fashion"] },
-  { sym: "ɑː", ex: "c<b>ar</b>, f<b>a</b>ther, h<b>ear</b>t", hint: "'a' bem aberto e longo", words: ["car","father","heart","dark","start","park","hard","large","fast","last","class","half","laugh","aunt","calm","palm","are","far","art","card"] },
-  { sym: "ɒ", ex: "h<b>o</b>t, d<b>o</b>g, cl<b>o</b>ck", hint: "mais comum no inglês britânico", words: ["hot","dog","clock","stop","box","not","got","lot","job","top","body","copy","office","cost","long","strong","song","gone","wrong","shop"] },
-  { sym: "ɔː", ex: "th<b>ou</b>ght, l<b>aw</b>, w<b>al</b>k", hint: "'ó' aberto e longo", words: ["thought","law","walk","talk","ball","call","small","tall","door","four","more","before","story","morning","short","sport","north","force","warm","water"] },
-  { sym: "ʊ", ex: "b<b>oo</b>k, p<b>u</b>t, c<b>ou</b>ld", hint: "'u' curto e relaxado", words: ["book","put","could","good","full","look","took","cook","foot","would","should","sugar","push","pull","bull","wolf","woman","stood","hood","wood"] },
-  { sym: "uː", ex: "f<b>oo</b>d, bl<b>ue</b>, wh<b>o</b>", hint: "'u' longo, lábios arredondados", words: ["food","blue","who","moon","true","school","room","soon","move","lose","two","group","fruit","juice","music","student","rule","June","choose","through"] },
-  { sym: "ʌ", ex: "c<b>u</b>p, l<b>o</b>ve, m<b>o</b>ney", hint: "'â' curto, boca relaxada", words: ["cup","love","money","sun","come","up","but","much","run","fun","us","under","cut","luck","much","enough","country","young","month","mother"] },
-  { sym: "ɜː", ex: "b<b>ir</b>d, w<b>or</b>k, l<b>ear</b>n", hint: "som só do inglês, sem equivalente direto", words: ["bird","work","learn","girl","first","word","world","turn","early","earth","heard","nurse","person","circle","purpose","journal","serve","perfect","germ","curl"] },
-  { sym: "ə", ex: "<b>a</b>bout, sof<b>a</b>, teach<b>er</b>", hint: "'schwa' — o som mais comum do inglês", words: ["about","sofa","teacher","banana","again","upon","support","common","family","doctor","famous","picture","sugar","about","complete","today","allow","because","around","common"] },
-];
-
-const diphthongs = [
-  { sym: "eɪ", ex: "d<b>ay</b>, r<b>ai</b>n, <b>ei</b>ght", hint: "'ei' como em 'lei'", words: ["day","rain","eight","name","late","make","take","play","say","way","game","gate","lake","wait","train","paint","face","place","space","great"] },
-  { sym: "aɪ", ex: "m<b>y</b>, t<b>i</b>me, l<b>i</b>ke", hint: "'ai' como em 'pai'", words: ["my","time","like","five","night","light","right","find","kind","mind","nice","white","write","life","wife","child","mile","smile","fine","line"] },
-  { sym: "ɔɪ", ex: "b<b>oy</b>, v<b>oi</b>ce, ch<b>oi</b>ce", hint: "'ói' como em 'dói'", words: ["boy","voice","choice","toy","noise","join","point","enjoy","coin","royal","destroy","annoy","oil","soil","boil","avoid","employ","loyal","moist","spoil"] },
-  { sym: "aʊ", ex: "n<b>ow</b>, h<b>ou</b>se, c<b>ow</b>", hint: "'au' como em 'mau'", words: ["now","house","cow","town","out","about","found","sound","around","down","brown","crowd","how","mouth","south","proud","cloud","loud","power","hour"] },
-  { sym: "əʊ", ex: "g<b>o</b>, h<b>o</b>me, sh<b>ow</b>", hint: "americano soa mais 'ou'", words: ["go","home","show","know","boat","road","coat","open","close","most","only","also","both","hope","note","phone","don't","won't","go","hello"] },
-  { sym: "ɪə", ex: "h<b>ere</b>, d<b>ear</b>, b<b>eer</b>", hint: "'ía' rápido", words: ["here","dear","beer","near","year","clear","ear","fear","hear","idea","really","serious","area","period","zero","atmosphere","weird","cheer","tear","appear"] },
-  { sym: "eə", ex: "h<b>air</b>, c<b>are</b>, wh<b>ere</b>", hint: "'éa' rápido", words: ["hair","care","where","chair","bear","fair","air","share","stare","there","their","wear","pair","rare","aware","prepare","compare","square","scarce","careful"] },
-  { sym: "ʊə", ex: "t<b>our</b>, p<b>ure</b>, s<b>ure</b>", hint: "'úa' rápido, mais raro", words: ["tour","pure","sure","cure","poor","tourist","during","secure","endure","rural","fewer","jury","mature","plural","allure"] },
-];
-
-const consonants = [
-  { sym: "p", ex: "<b>p</b>en, cu<b>p</b>", hint: "igual português, mas com sopro de ar", words: ["pen","cup","park","stop","paper","people","play","put","place","point","help","keep","hope","open","apple","happy","group","sleep","stop","top"] },
-  { sym: "b", ex: "<b>b</b>ig, ca<b>b</b>", hint: "igual português", words: ["big","cab","book","bad","boy","best","before","between","about","table","able","job","club","robot","baby","ribbon","rabbit","tab","web","habit"] },
-  { sym: "t", ex: "<b>t</b>ea, ca<b>t</b>", hint: "com sopro de ar, língua atrás dos dentes", words: ["tea","cat","time","top","talk","take","tell","test","two","today","water","letter","better","start","first","last","best","meet","wait","street"] },
-  { sym: "d", ex: "<b>d</b>og, ba<b>d</b>", hint: "igual português", words: ["dog","bad","day","door","dark","did","down","during","word","hard","food","need","good","kind","land","road","end","friend","world","idea"] },
-  { sym: "k", ex: "<b>c</b>at, ba<b>ck</b>", hint: "com sopro de ar", words: ["cat","back","key","car","clock","come","could","call","class","kind","school","week","like","make","talk","work","think","take","look","book"] },
-  { sym: "ɡ", ex: "<b>g</b>o, ba<b>g</b>", hint: "igual português (g de 'gato')", words: ["go","bag","girl","good","game","get","give","great","ground","glass","again","begin","forget","together","language","English","big","dog","dig","leg"] },
-  { sym: "tʃ", ex: "<b>ch</b>eese, wa<b>tch</b>", hint: "'tch' como em 'tchau'", words: ["cheese","watch","chair","teach","much","child","church","change","choose","chance","kitchen","teacher","picture","nature","future","catch","match","reach","speech","lunch"] },
-  { sym: "dʒ", ex: "<b>j</b>ob, brid<b>ge</b>", hint: "'dj' como em 'adjetivo'", words: ["job","bridge","juice","jump","large","just","joy","enjoy","danger","manage","village","college","edge","judge","gym","giant","magic","engine","subject","stranger"] },
-  { sym: "f", ex: "<b>f</b>ish, lau<b>gh</b>", hint: "igual português", words: ["fish","laugh","food","fun","phone","family","find","first","for","from","enough","half","photo","different","office","coffee","if","life","wife","safe"] },
-  { sym: "v", ex: "<b>v</b>ery, lo<b>v</b>e", hint: "atenção: não confundir com 'b'", words: ["very","love","voice","van","give","live","have","move","never","every","seven","travel","heavy","seven","of","above","believe","achieve","arrive","serve"] },
-  { sym: "θ", ex: "<b>th</b>ink, ba<b>th</b>", hint: "não existe em português — língua entre os dentes, sem vibrar", words: ["think","bath","three","math","thanks","thing","through","throw","month","north","south","birthday","author","healthy","earth","mouth","teeth","tooth","thick","thin"] },
-  { sym: "ð", ex: "<b>th</b>is, mo<b>th</b>er", hint: "igual ao de cima, mas com voz (vibra)", words: ["this","mother","that","other","there","the","they","them","then","than","these","those","together","weather","brother","father","rather","either","although","clothing"] },
-  { sym: "s", ex: "<b>s</b>un, bu<b>s</b>", hint: "igual português", words: ["sun","bus","see","stop","sister","school","some","start","say","same","house","face","place","voice","city","piece","since","system","science","face"] },
-  { sym: "z", ex: "<b>z</b>oo, ro<b>s</b>e", hint: "igual português (zumbido)", words: ["zoo","rose","zero","buzz","zone","is","was","these","those","because","easy","music","reason","present","busy","cousin","choose","cause","news","design"] },
-  { sym: "ʃ", ex: "<b>sh</b>e, wi<b>sh</b>", hint: "'ch' como em 'chave'", words: ["she","wish","shop","fish","sheep","show","should","short","share","shape","nation","station","special","ocean","sure","sugar","machine","fashion","session","mission"] },
-  { sym: "ʒ", ex: "vi<b>si</b>on, mea<b>s</b>ure", hint: "'j' como em 'jamais' (francês)", words: ["vision","measure","usually","treasure","pleasure","decision","occasion","television","casual","garage","beige","genre","usual","division","conclusion","leisure"] },
-  { sym: "h", ex: "<b>h</b>ouse, <b>h</b>ello", hint: "som de respiração, sem igual em português", words: ["house","hello","happy","hand","home","have","help","here","how","who","hope","head","heart","hot","hour","behind","ahead","perhaps","behave","uphold"] },
-  { sym: "m", ex: "<b>m</b>an, su<b>m</b>", hint: "igual português", words: ["man","sum","money","mother","make","most","much","many","must","move","name","some","time","come","from","summer","common","comment","moment","member"] },
-  { sym: "n", ex: "<b>n</b>o, su<b>n</b>", hint: "igual português", words: ["no","sun","name","night","near","need","next","never","new","now","many","any","one","and","end","under","understand","answer","open","student"] },
-  { sym: "ŋ", ex: "si<b>ng</b>, thi<b>n</b>k", hint: "'ng' nasal, tipo final de 'manga' sem soar o 'g'", words: ["sing","think","song","long","king","thing","bring","during","morning","evening","young","strong","along","among","language","doing","going","being","feeling","something"] },
-  { sym: "l", ex: "<b>l</b>eg, be<b>ll</b>", hint: "no fim da palavra fica mais 'escuro' (dark L)", words: ["leg","bell","look","love","light","live","life","little","last","long","people","place","school","help","feel","will","call","tell","well","still"] },
-  { sym: "r", ex: "<b>r</b>ed, ca<b>r</b>", hint: "retroflexo — língua enrola pra trás, nada a ver com o R do português", words: ["red","car","right","room","run","real","read","really","road","rest","great","true","try","program","every","very","story","around","during","tomorrow"] },
-  { sym: "j", ex: "<b>y</b>es, <b>y</b>ellow", hint: "'i' rápido, como em 'iogurte'", words: ["yes","yellow","you","year","young","yet","yesterday","use","usual","university","few","new","music","view","beautiful","opinion","million","onion","familiar","argue"] },
-  { sym: "w", ex: "<b>w</b>e, <b>w</b>ant", hint: "'u' rápido, lábios arredondados, como em 'quase'", words: ["we","want","work","water","will","was","one","week","world","way","with","would","well","went","win","between","quick","quite","language","always"] },
-];
-
-function renderCards(containerId, data, colorClass) {
-  const container = document.getElementById(containerId);
-  data.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="symbol ${colorClass}">/${item.sym}/</div>
-      <div class="examples">${item.ex}</div>
-      <div class="pt-hint">${item.hint}</div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-renderCards('vowels', vowels, 'vowel-color');
-renderCards('diphthongs', diphthongs, 'diphthong-color');
-renderCards('consonants', consonants, 'consonant-color');
-
-/* ---------- Game logic ---------- */
-
-const pools = {
-  vowels: vowels,
-  diphthongs: diphthongs,
-  consonants: consonants,
-  all: [...vowels, ...diphthongs, ...consonants],
-};
-
-const LEVELS = [
-  { name: "Iniciante", xpNeeded: 0 },
-  { name: "Aprendiz", xpNeeded: 100 },
-  { name: "Ouvido Afiado", xpNeeded: 250 },
-  { name: "Fluente em Sons", xpNeeded: 450 },
-  { name: "Quase Nativo", xpNeeded: 700 },
-  { name: "Mestre do IPA", xpNeeded: 1000 },
-];
-
-let currentPool = [];
-let currentIndex = 0;
-let score = 0;
-let bestStreak = 0;
-let streak = 0;
-let answeredCount = 0;
-let missed = [];
-let awaitingNext = false;
-let earnedBadges = new Set();
-
-const symbolEl = document.getElementById('question-symbol');
-const hintEl = document.getElementById('question-hint');
-const inputEl = document.getElementById('answer-input');
-const feedbackEl = document.getElementById('feedback');
-const scoreEl = document.getElementById('score-value');
-const streakEl = document.getElementById('streak-value');
-const bestEl = document.getElementById('best-value');
-const progressFill = document.getElementById('progress-fill');
-const progressLabel = document.getElementById('progress-label');
-const missedListEl = document.getElementById('missed-list');
-const submitBtn = document.getElementById('submit-btn');
-const skipBtn = document.getElementById('skip-btn');
-const nextRow = document.getElementById('next-row');
-const nextBtn = document.getElementById('next-btn');
-const audioBtn = document.getElementById('audio-btn');
-const xpFill = document.getElementById('xp-fill');
-const xpLabel = document.getElementById('xp-label');
-const levelTag = document.getElementById('level-tag');
-const badgesRow = document.getElementById('badges-row');
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function startMode(mode) {
-  currentPool = shuffle(pools[mode]);
-  currentIndex = 0;
-  answeredCount = 0;
-  missed = [];
-  awaitingNext = false;
-  updateMissedDisplay();
-  loadQuestion();
-  updateProgress();
-}
-
-function loadQuestion() {
-  if (currentIndex >= currentPool.length) {
-    currentPool = shuffle(currentPool);
-    currentIndex = 0;
-  }
-  const q = currentPool[currentIndex];
-  symbolEl.textContent = `/${q.sym}/`;
-  hintEl.textContent = `dica: ${q.hint}`;
-  inputEl.value = '';
-  feedbackEl.className = 'feedback';
-  feedbackEl.textContent = '';
-  nextRow.classList.remove('show');
-  awaitingNext = false;
-  inputEl.disabled = false;
-  inputEl.focus();
-}
-
-function speak(text, rate) {
-  if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'en-US';
-  utter.rate = rate || 0.85;
-  window.speechSynthesis.speak(utter);
-}
-
-function playCurrentExamples() {
-  const q = currentPool[currentIndex];
-  if (!q) return;
-  const sampleWords = q.words.slice(0, 3).join(', ');
-  audioBtn.classList.add('playing');
-  speak(sampleWords, 0.8);
-  setTimeout(() => audioBtn.classList.remove('playing'), 1800);
-}
-
-function getLevelInfo(xp) {
-  let levelIndex = 0;
-  for (let i = 0; i < LEVELS.length; i++) {
-    if (xp >= LEVELS[i].xpNeeded) levelIndex = i;
-  }
-  const current = LEVELS[levelIndex];
-  const next = LEVELS[levelIndex + 1];
-  return { levelIndex, current, next };
-}
-
-function updateLevelDisplay() {
-  const { levelIndex, current, next } = getLevelInfo(score);
-  levelTag.textContent = `Nível ${levelIndex + 1} · ${current.name}`;
-  if (next) {
-    const span = next.xpNeeded - current.xpNeeded;
-    const progress = score - current.xpNeeded;
-    const pct = Math.min(100, (progress / span) * 100);
-    xpFill.style.width = `${pct}%`;
-    xpLabel.textContent = `${score} XP · faltam ${next.xpNeeded - score} XP para "${next.name}"`;
-  } else {
-    xpFill.style.width = '100%';
-    xpLabel.textContent = `${score} XP · nível máximo atingido!`;
-  }
-}
-
-function checkBadges() {
-  const newBadges = [];
-  if (streak >= 5 && !earnedBadges.has('streak5')) { earnedBadges.add('streak5'); newBadges.push('🔥 Sequência de 5'); }
-  if (streak >= 10 && !earnedBadges.has('streak10')) { earnedBadges.add('streak10'); newBadges.push('⚡ Sequência de 10'); }
-  if (answeredCount >= 20 && !earnedBadges.has('answered20')) { earnedBadges.add('answered20'); newBadges.push('📚 20 respondidas'); }
-  if (answeredCount >= 50 && !earnedBadges.has('answered50')) { earnedBadges.add('answered50'); newBadges.push('🎯 50 respondidas'); }
-  if (score >= 500 && !earnedBadges.has('score500')) { earnedBadges.add('score500'); newBadges.push('💪 500 pontos'); }
-  newBadges.forEach(b => {
-    const chip = document.createElement('span');
-    chip.className = 'badge-chip';
-    chip.textContent = b;
-    badgesRow.prepend(chip);
-  });
-}
-
-function checkAnswer() {
-  if (awaitingNext) return;
-  const q = currentPool[currentIndex];
-  const raw = inputEl.value.trim().toLowerCase();
-  if (!raw) return;
-
-  const isCorrect = q.words.some(w => w.toLowerCase() === raw);
-
-  if (isCorrect) {
-    score += 10 + (streak * 2);
-    streak += 1;
-    if (streak > bestStreak) bestStreak = streak;
-    feedbackEl.className = 'feedback show correct';
-    feedbackEl.innerHTML = `<b>Certo!</b> "${raw}" tem o som /${q.sym}/. Outros exemplos: ${q.ex}`;
-    speak(raw, 0.85);
-  } else {
-    streak = 0;
-    if (!missed.find(m => m.sym === q.sym)) missed.push(q);
-    feedbackEl.className = 'feedback show incorrect';
-    feedbackEl.innerHTML = `<b>Quase.</b> "${raw}" não tem o som /${q.sym}/ (ou não está na nossa lista ainda). Exemplos certos: ${q.ex}`;
-  }
-
-  answeredCount += 1;
-  scoreEl.textContent = score;
-  streakEl.textContent = streak;
-  bestEl.textContent = bestStreak;
-  updateMissedDisplay();
-  updateProgress();
-  updateLevelDisplay();
-  checkBadges();
-
-  inputEl.disabled = true;
-  awaitingNext = true;
-  nextRow.classList.add('show');
-  nextBtn.focus();
-}
-
-function goToNext() {
-  currentIndex += 1;
-  loadQuestion();
-}
-
-function updateProgress() {
-  const total = currentPool.length;
-  const done = total ? (answeredCount % total === 0 && answeredCount > 0 ? total : answeredCount % total) : 0;
-  const pct = total ? (done / total) * 100 : 0;
-  progressFill.style.width = `${pct}%`;
-  progressLabel.textContent = `${done} / ${total} sons neste modo · ${answeredCount} respondidas no total`;
-}
-
-function updateMissedDisplay() {
-  missedListEl.innerHTML = '';
-  missed.forEach(m => {
-    const chip = document.createElement('span');
-    chip.className = 'missed-chip';
-    chip.textContent = `/${m.sym}/ — revisar`;
-    missedListEl.appendChild(chip);
-  });
-}
-
-document.querySelectorAll('.mode-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    startMode(btn.dataset.mode);
-  });
-});
-
-submitBtn.addEventListener('click', checkAnswer);
-inputEl.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    if (awaitingNext) { goToNext(); } else { checkAnswer(); }
-  }
-});
-skipBtn.addEventListener('click', () => {
-  streak = 0;
-  streakEl.textContent = streak;
-  answeredCount += 1;
-  updateProgress();
-  goToNext();
-});
-nextBtn.addEventListener('click', goToNext);
-audioBtn.addEventListener('click', playCurrentExamples);
-
-startMode('vowels');
-updateLevelDisplay();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
-</script>
+<script src="js/sounds-data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/game.js"></script>
 
 </body>
 </html>
